@@ -1,0 +1,14 @@
+package com.example.aitutor.ui.theme
+
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
+
+@Immutable
+interface AppTheme {
+    @Stable
+    val colors: AppColors
+    @Stable
+    val shapes: AppShapes
+    @Stable
+    val typography: AppTypography
+}

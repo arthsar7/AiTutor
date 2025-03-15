@@ -14,7 +14,7 @@ import com.example.aitutor.base.reducer.UiState
 import com.example.aitutor.screens.Screen
 
 inline fun <S : UiState, F : UiEffect, E : UiEvent, reified VM : BaseViewModel<S, E, F>> NavGraphBuilder.baseComposable(
-    screen: Screen<S, E, F, VM>,
+    screen: Screen,
     crossinline getViewModel: @Composable () -> VM = { viewModel() },
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
