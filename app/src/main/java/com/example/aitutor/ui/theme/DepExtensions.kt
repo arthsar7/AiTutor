@@ -11,6 +11,7 @@ private const val FULL_HEIGHT_FIGMA_LAYOUT = 852f
 private const val RELATIVE_SIZE_FIGMA_LAYOUT =
     ((FULL_WIDTH_FIGMA_LAYOUT + FULL_HEIGHT_FIGMA_LAYOUT) / 2)
 
+
 @Composable
 private fun rememberRelativePercent(): Float {
     val configuration = LocalConfiguration.current

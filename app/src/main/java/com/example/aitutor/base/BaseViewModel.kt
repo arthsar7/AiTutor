@@ -44,7 +44,7 @@ abstract class BaseViewModel<S : UiState, E : UiEvent, F : UiEffect>(
     }
 
     private suspend fun handleEvent(event: E) {
-        _state.update {prevState ->
+        _state.update { prevState ->
             val (state, effect) = reducer.reduce(prevState, event)
             effect?.let { _effect.send(it) }
             state

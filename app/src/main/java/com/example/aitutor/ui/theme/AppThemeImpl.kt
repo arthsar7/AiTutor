@@ -30,6 +30,7 @@ object AppThemeImpl: AppTheme {
     override val colors = AppColors(
         primary = Blue,
         secondary = Green,
+        secondaryLight = LightGreen,
         background = White,
         buttonGradientBrush = Brush.horizontalGradient(persistentListOf(Blue, Green)),
         splashGradientBrush = Brush.verticalGradient(persistentListOf(Blue, Green)),
@@ -71,7 +72,8 @@ object AppThemeImpl: AppTheme {
             fontWeight = FontWeight.ExtraBold,
             fontSize = 36.sp,
             lineHeight = 36.sp,
-            color = Black
+            color = Black,
+            textAlign = TextAlign.Center
         ),
         body = TextStyle(
             fontFamily = fontFamily,

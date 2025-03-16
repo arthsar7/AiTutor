@@ -4,4 +4,11 @@
     <string name="private_tutor_get_started">Get Started</string>
     <string name="private_tutor_title">Your Private Tutor</string>
     <string name="private_tutor_description">Learning languages is now easier — chat,\npractice, and improve with your AI-powered\ntutor</string>
+    <string name="native_language_title">Select Your\nNative Language:</string>
+    <string name="english_language_title">Your English\nLevel Now:</string>
+    <string name="study_reasons_title">Why do You Want\nLearn English?</string>
+    <string name="your_name_title">What is Your\nName?</string>
+    <string name="interesting_topics_title">Which Topics\nInterest You?</string>
+    <string name="practice_time_title">How Much Would\nYou Like Practice \nEvery Day?</string>
+    <string name="steps_continue">Continue</string>
 </resources>

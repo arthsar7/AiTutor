@@ -67,7 +67,6 @@ fun PrivateTutorScreen(
             Spacer(Modifier.height(10.dep))
             Text(
                 text = stringResource(R.string.private_tutor_description),
-                style = Theme.typography.body,
                 modifier = Modifier.padding(horizontal = 20.dep)
             )
             Spacer(Modifier.height(27.dep))
@@ -76,7 +75,7 @@ fun PrivateTutorScreen(
                 onClick = { sendEvent(PrivateTutorEvent.GetStartedClicked) },
                 inlineEndContent = {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_right),
+                        painter = painterResource(R.drawable.ic_arrow_right),
                         contentDescription = "Arrow Right",
                         tint = Theme.colors.background
                     )

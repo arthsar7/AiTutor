@@ -9,25 +9,27 @@ import com.example.aitutor.base.reducer.UiEvent
 import com.example.aitutor.base.reducer.UiState
 
 @Immutable
-data class SplashState(val isLoading: Boolean = true): UiState
+data class SplashState(val isLoading: Boolean = true) : UiState
 
 @Immutable
-sealed interface SplashEffect: UiEffect {
+sealed interface SplashEffect : UiEffect {
     @Stable
-    data class Error(val throwable: Throwable): SplashEffect
+    data class Error(val throwable: Throwable) : SplashEffect
+
     @Stable
-    data object NavigateToHome: SplashEffect
+    data object NavigateToHome : SplashEffect
 }
 
 @Immutable
-sealed interface SplashEvent: UiEvent {
+sealed interface SplashEvent : UiEvent {
     @Stable
-    data object InitSuccess: SplashEvent
+    data object InitSuccess : SplashEvent
+
     @Stable
     data class InitError(val error: Throwable) : SplashEvent
 }
 
-class SplashReducer: Reducer<SplashState, SplashEvent, SplashEffect> {
+class SplashReducer : Reducer<SplashState, SplashEvent, SplashEffect> {
     override fun reduce(
         state: SplashState,
         event: SplashEvent

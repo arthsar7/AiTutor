@@ -9,21 +9,21 @@ import com.example.aitutor.base.reducer.UiEvent
 import com.example.aitutor.base.reducer.UiState
 
 @Immutable
-data class PrivateTutorState(val isGetStartedClicked: Boolean = false): UiState
+data class PrivateTutorState(val isGetStartedClicked: Boolean = false) : UiState
 
 @Immutable
-sealed interface PrivateTutorEvent: UiEvent {
+sealed interface PrivateTutorEvent : UiEvent {
     @Stable
     data object GetStartedClicked : PrivateTutorEvent
 }
 
 @Immutable
-sealed interface PrivateTutorEffect: UiEffect {
+sealed interface PrivateTutorEffect : UiEffect {
     @Stable
     data object NavigateToStart : PrivateTutorEffect
 }
 
-class PrivateTutorReducer: Reducer<PrivateTutorState, PrivateTutorEvent, PrivateTutorEffect> {
+class PrivateTutorReducer : Reducer<PrivateTutorState, PrivateTutorEvent, PrivateTutorEffect> {
     override fun reduce(
         state: PrivateTutorState,
         event: PrivateTutorEvent

@@ -18,6 +18,11 @@ import com.example.aitutor.screens.onboarding.privatetutor.PrivateTutorEvent
 import com.example.aitutor.screens.onboarding.privatetutor.PrivateTutorScreen
 import com.example.aitutor.screens.onboarding.privatetutor.PrivateTutorState
 import com.example.aitutor.screens.onboarding.privatetutor.PrivateTutorViewModel
+import com.example.aitutor.screens.onboarding.steps.StepsEffect
+import com.example.aitutor.screens.onboarding.steps.StepsEvent
+import com.example.aitutor.screens.onboarding.steps.StepsScreen
+import com.example.aitutor.screens.onboarding.steps.StepsState
+import com.example.aitutor.screens.onboarding.steps.StepsViewModel
 import com.example.aitutor.screens.splash.SplashEffect
 import com.example.aitutor.screens.splash.SplashEvent
 import com.example.aitutor.screens.splash.SplashScreen
@@ -28,7 +33,9 @@ import com.example.aitutor.screens.splash.SplashViewModel
 fun MainNavigation(navController: NavHostController = rememberNavController()) {
     var showDialog by remember { mutableStateOf(false) }
     NavHost(navController = navController, startDestination = Screen.Splash.route) {
-        mviComposable<SplashState, SplashEffect, SplashEvent, SplashViewModel>(Screen.Splash) { state, sideEffect, sendEvent ->
+        mviComposable<SplashState, SplashEffect, SplashEvent, SplashViewModel>(
+            screen = Screen.Splash
+        ) { state, sideEffect, sendEvent ->
             SplashScreen(
                 state = state,
                 sideEffect = sideEffect,
@@ -51,13 +58,17 @@ fun MainNavigation(navController: NavHostController = rememberNavController()) {
                 state = state,
                 sideEffect = sideEffect,
                 sendEvent = sendEvent,
-                onNavigateToStart = {
-                    navController.navigate(Screen.Splash.route) {
-                        popUpTo(Screen.OnboardingPrivateTutor.route) {
-                            inclusive = true
-                        }
-                    }
-                }
+                onNavigateToStart = { navController.navigate(Screen.Steps.route) }
+            )
+        }
+        mviComposable<StepsState, StepsEffect, StepsEvent, StepsViewModel>(
+            screen = Screen.Steps
+        ) { state, sideEffect, sendEvent ->
+            StepsScreen(
+                state = state,
+                sideEffect = sideEffect,
+                sendEvent = sendEvent,
+                onBack = navController::popBackStack
             )
         }
     }

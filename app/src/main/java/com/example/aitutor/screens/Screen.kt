@@ -10,4 +10,7 @@ sealed class Screen(val route: String) {
 
     @Stable
     data object OnboardingPrivateTutor : Screen("onboarding_private_tutor")
+
+    @Stable
+    data object Steps : Screen("steps")
 }

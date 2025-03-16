@@ -12,6 +12,8 @@ data class AppColors(
     @Stable
     val secondary: Color,
     @Stable
+    val secondaryLight: Color,
+    @Stable
     val background: Color,
     @Stable
     val buttonGradientBrush: Brush,
