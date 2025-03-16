@@ -12,8 +12,9 @@ import com.example.aitutor.base.reducer.UiEffect
 import com.example.aitutor.base.reducer.UiEvent
 import com.example.aitutor.base.reducer.UiState
 import com.example.aitutor.screens.Screen
+import kotlinx.coroutines.Dispatchers
 
-inline fun <S : UiState, F : UiEffect, E : UiEvent, reified VM : BaseViewModel<S, E, F>> NavGraphBuilder.baseComposable(
+inline fun <S : UiState, F : UiEffect, E : UiEvent, reified VM : BaseViewModel<S, E, F>> NavGraphBuilder.mviComposable(
     screen: Screen,
     crossinline getViewModel: @Composable () -> VM = { viewModel() },
     arguments: List<NamedNavArgument> = emptyList(),
@@ -23,7 +24,10 @@ inline fun <S : UiState, F : UiEffect, E : UiEvent, reified VM : BaseViewModel<S
     composable(screen.route, arguments, deepLinks) {
         val viewModel = getViewModel.invoke()
         val state by viewModel.state.collectAsStateWithLifecycle()
-        val effect by viewModel.effect.collectAsStateWithLifecycle(null)
+        val effect by viewModel.effect.collectAsStateWithLifecycle(
+            initialValue = null,
+            context = Dispatchers.Main.immediate
+        )
         content(state, effect, viewModel::sendEvent)
     }
 }

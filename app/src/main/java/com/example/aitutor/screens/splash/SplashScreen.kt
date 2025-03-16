@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.aitutor.R
@@ -23,8 +22,8 @@ import com.example.aitutor.ui.theme.dep
 fun SplashScreen(
     state: SplashState,
     sideEffect: SplashEffect?,
-    onNavigateToHome: () -> Unit,
     sendEvent: (SplashEvent) -> Unit,
+    onNavigateToHome: () -> Unit,
     onShowError: () -> Unit
 ) {
     HandleSideEffect(sideEffect) {
@@ -39,19 +38,12 @@ fun SplashScreen(
     }
     Box(
         modifier = Modifier
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Theme.colors.primary,
-                        Theme.colors.secondary
-                    )
-                )
-            )
+            .background(Theme.colors.splashGradientBrush)
             .systemBarsPadding()
             .fillMaxSize()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_splash_logo),
+            painter = painterResource(R.drawable.ic_splash_logo),
             contentDescription = null,
             modifier = Modifier
                 .size(142.dep)

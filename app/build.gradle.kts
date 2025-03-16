@@ -59,4 +59,7 @@ dependencies {
 
     // navigation
     implementation(libs.androidx.navigation.compose)
+
+    //immutable
+    implementation(libs.kotlinx.collections.immutable)
 }

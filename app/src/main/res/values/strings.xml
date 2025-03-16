@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">AiTutor</string>
-    <string name="splash_loading">Loading...</string>
+    <string name="splash_loading">Loading…</string>
+    <string name="private_tutor_get_started">Get Started</string>
+    <string name="private_tutor_title">Your Private Tutor</string>
+    <string name="private_tutor_description">Learning languages is now easier — chat,\npractice, and improve with your AI-powered\ntutor</string>
 </resources>

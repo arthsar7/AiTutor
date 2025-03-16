@@ -6,13 +6,14 @@ import com.example.aitutor.base.reducer.Reducer
 import com.example.aitutor.base.reducer.UiEffect
 import com.example.aitutor.base.reducer.UiEvent
 import com.example.aitutor.base.reducer.UiState
-import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<S : UiState, E : UiEvent, F : UiEffect>(
@@ -23,16 +24,10 @@ abstract class BaseViewModel<S : UiState, E : UiEvent, F : UiEffect>(
     private val _state = MutableStateFlow(initialState)
     val state: StateFlow<S> = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<F>(
-        extraBufferCapacity = 64,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
-    val effect: SharedFlow<F> = _effect.asSharedFlow()
+    private val _effect = Channel<F>()
+    val effect: Flow<F> = _effect.receiveAsFlow()
 
-    private val events = MutableSharedFlow<E>(
-        extraBufferCapacity = 64,
-        onBufferOverflow = BufferOverflow.SUSPEND
-    )
+    private val events = MutableSharedFlow<E>(extraBufferCapacity = 64, replay = 3)
 
     init {
         viewModelScope.launch {
@@ -49,10 +44,10 @@ abstract class BaseViewModel<S : UiState, E : UiEvent, F : UiEffect>(
     }
 
     private suspend fun handleEvent(event: E) {
-        val result = reducer.reduce(_state.value, event)
-        _state.value = result.state
-        result.effect?.let { effect ->
-            _effect.emit(effect)
+        _state.update {prevState ->
+            val (state, effect) = reducer.reduce(prevState, event)
+            effect?.let { _effect.send(it) }
+            state
         }
     }
 }

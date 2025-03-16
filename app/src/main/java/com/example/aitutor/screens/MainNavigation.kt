@@ -12,7 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.aitutor.base.baseComposable
+import com.example.aitutor.base.mviComposable
+import com.example.aitutor.screens.onboarding.privatetutor.PrivateTutorEffect
+import com.example.aitutor.screens.onboarding.privatetutor.PrivateTutorEvent
+import com.example.aitutor.screens.onboarding.privatetutor.PrivateTutorScreen
+import com.example.aitutor.screens.onboarding.privatetutor.PrivateTutorState
+import com.example.aitutor.screens.onboarding.privatetutor.PrivateTutorViewModel
 import com.example.aitutor.screens.splash.SplashEffect
 import com.example.aitutor.screens.splash.SplashEvent
 import com.example.aitutor.screens.splash.SplashScreen
@@ -23,19 +28,36 @@ import com.example.aitutor.screens.splash.SplashViewModel
 fun MainNavigation(navController: NavHostController = rememberNavController()) {
     var showDialog by remember { mutableStateOf(false) }
     NavHost(navController = navController, startDestination = Screen.Splash.route) {
-        baseComposable<SplashState, SplashEffect, SplashEvent, SplashViewModel>(Screen.Splash) { state, sideEffect, sendEvent ->
+        mviComposable<SplashState, SplashEffect, SplashEvent, SplashViewModel>(Screen.Splash) { state, sideEffect, sendEvent ->
             SplashScreen(
                 state = state,
                 sideEffect = sideEffect,
                 onNavigateToHome = {
-//                    navController.navigate(Screen.OnboardingPrivateTutor.route) {
-//                        popUpTo(Screen.Splash.route) {
-//                            inclusive = true
-//                        }
-//                    }
+                    navController.navigate(Screen.OnboardingPrivateTutor.route) {
+                        popUpTo(Screen.Splash.route) {
+                            inclusive = true
+                        }
+                    }
                 },
                 sendEvent = sendEvent,
                 onShowError = { showDialog = true }
+            )
+        }
+
+        mviComposable<PrivateTutorState, PrivateTutorEffect, PrivateTutorEvent, PrivateTutorViewModel>(
+            screen = Screen.OnboardingPrivateTutor
+        ) { state, sideEffect, sendEvent ->
+            PrivateTutorScreen(
+                state = state,
+                sideEffect = sideEffect,
+                sendEvent = sendEvent,
+                onNavigateToStart = {
+                    navController.navigate(Screen.Splash.route) {
+                        popUpTo(Screen.OnboardingPrivateTutor.route) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
         }
     }
