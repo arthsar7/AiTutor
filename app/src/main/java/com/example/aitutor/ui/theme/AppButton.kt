@@ -49,7 +49,6 @@ fun AppGradientButton(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dep)
                 .alpha(
                     if (enabled) 1f else 0.5f
                 )

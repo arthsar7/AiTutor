@@ -119,6 +119,7 @@ internal fun StepsScreen(
             AppGradientButton(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
+                    .padding(horizontal = 20.dep)
                     .padding(bottom = 36.dep),
                 text = stringResource(id = R.string.steps_continue),
                 onClick = {
@@ -151,7 +152,7 @@ private fun StepsIndicator(
         for (i in 0 until stepsSize) {
             StepIndicator(
                 modifier = Modifier.padding(horizontal = 2.dep),
-                isSelected = i == currentPage
+                isSelected = i <= currentPage
             )
         }
     }
@@ -190,11 +191,11 @@ private fun StepContent(
                 onSelectLanguage = { onEvent(StepsEvent.SelectNativeLanguage(it)) }
             )
         }
-        OnboardingStep.EnglishLanguage -> TODO()
-        OnboardingStep.StudyReasons -> TODO()
-        OnboardingStep.YourName -> TODO()
-        OnboardingStep.InterestingTopics -> TODO()
-        OnboardingStep.PracticeTime -> TODO()
+        OnboardingStep.EnglishLanguage -> {}
+        OnboardingStep.StudyReasons -> {}
+        OnboardingStep.YourName -> {}
+        OnboardingStep.InterestingTopics -> {}
+        OnboardingStep.PracticeTime -> {}
     }
 }
 

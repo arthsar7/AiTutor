@@ -81,6 +81,7 @@ fun PrivateTutorScreen(
                     )
                 },
                 modifier = Modifier
+                    .padding(horizontal = 20.dep)
                     .padding(bottom = 20.dep)
             )
         }
