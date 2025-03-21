@@ -13,7 +13,7 @@ enum class OnboardingStep(@StringRes private val titleRes: Int) {
     @Stable
     NativeLanguage(R.string.native_language_title),
     @Stable
-    EnglishLanguage(R.string.english_language_title),
+    EnglishLevel(R.string.english_language_title),
     @Stable
     StudyReasons(R.string.study_reasons_title),
     @Stable

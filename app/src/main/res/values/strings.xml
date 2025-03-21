@@ -11,4 +11,6 @@
     <string name="interesting_topics_title">Which Topics\nInterest You?</string>
     <string name="practice_time_title">How Much Would\nYou Like Practice \nEvery Day?</string>
     <string name="steps_continue">Continue</string>
+    <string name="steps_your_name">Your AI tutor will call you\nby this name</string>
+    <string name="steps_your_name_placeholder">Enter your name</string>
 </resources>

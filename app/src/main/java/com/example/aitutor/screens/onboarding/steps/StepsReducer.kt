@@ -42,6 +42,9 @@ sealed interface StepsEvent : UiEvent {
     data object ContinueClicked : StepsEvent
 
     @Stable
+    data class StepChanged(val step: Int) : StepsEvent
+
+    @Stable
     data object BackClicked : StepsEvent
 
     @Stable
@@ -80,7 +83,7 @@ class StepsReducer : Reducer<StepsState, StepsEvent, StepsEffect> {
                     )
                 } else {
                     ReducerResult(
-                        state = StepsState(
+                        state = state.copy(
                             currentStepIndex = state.currentStepIndex - 1,
                             isContinueAvailable = validate(state, state.currentStepIndex - 1)
                         ),
@@ -91,7 +94,7 @@ class StepsReducer : Reducer<StepsState, StepsEvent, StepsEffect> {
 
             StepsEvent.ContinueClicked -> {
                 ReducerResult(
-                    state = StepsState(
+                    state = state.copy(
                         currentStepIndex = state.currentStepIndex + 1,
                         isContinueAvailable = validate(state, state.currentStepIndex + 1)
                     ),
@@ -101,42 +104,56 @@ class StepsReducer : Reducer<StepsState, StepsEvent, StepsEffect> {
 
             is StepsEvent.SelectNativeLanguage -> {
                 ReducerResult(
-                    state = StepsState(selectedNativeLanguage = event.nativeLanguage),
+                    state = state.copy(selectedNativeLanguage = event.nativeLanguage),
                 )
             }
 
             is StepsEvent.SelectEnglishLevel -> {
                 ReducerResult(
-                    state = StepsState(selectedEnglishLevel = event.englishLevel),
+                    state = state.copy(selectedEnglishLevel = event.englishLevel),
                 )
             }
 
             is StepsEvent.SelectStudyReason -> {
+                val isStudyReasonSelected = state.selectedStudyReasons.contains(event.studyReason)
+                val selectedStudyReasons = if (isStudyReasonSelected) {
+                    state.selectedStudyReasons - event.studyReason
+                } else {
+                    state.selectedStudyReasons + event.studyReason
+                }
                 ReducerResult(
-                    state = StepsState(
-                        selectedStudyReasons = if (state.selectedStudyReasons.contains(event.studyReason)) {
-                            state.selectedStudyReasons - event.studyReason
-                        } else {
-                            state.selectedStudyReasons + event.studyReason
-                        }.toPersistentList()
-                    ),
+                    state = state.copy(
+                        selectedStudyReasons = selectedStudyReasons.toPersistentList(),
+                        isContinueAvailable = selectedStudyReasons.isNotEmpty()
+                    )
                 )
             }
 
             is StepsEvent.SetYourName -> {
                 ReducerResult(
-                    state = StepsState(
+                    state = state.copy(
                         yourName = event.yourName,
                         isContinueAvailable = event.yourName.isNotBlank()
                     ),
+                )
+            }
+
+            is StepsEvent.StepChanged -> {
+                ReducerResult(
+                    state = state.copy(
+                        currentStepIndex = event.step,
+                        isContinueAvailable = validate(state, event.step)
+                    ),
+                    effect = StepsEffect.NavigateToStep(event.step)
                 )
             }
         }
     }
 
     private fun validate(state: StepsState, currentStepIndex: Int = state.currentStepIndex): Boolean {
-        return when (OnboardingStep.entries[currentStepIndex]) {
+        return when (state.onboardingSteps[currentStepIndex]) {
             OnboardingStep.YourName -> state.yourName.isNotBlank()
+            OnboardingStep.StudyReasons -> state.selectedStudyReasons.isNotEmpty()
             else -> true
         }
     }
