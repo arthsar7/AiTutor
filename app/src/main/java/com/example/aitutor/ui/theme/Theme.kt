@@ -25,6 +25,11 @@ object Theme {
         @ReadOnlyComposable
         @Composable
         get() = LocalAppShapes.current
+
+    val elevations: AppElevations
+        @ReadOnlyComposable
+        @Composable
+        get() = LocalAppElevations.current
 }
 
 @Composable
@@ -37,6 +42,7 @@ fun Theme(
         LocalAppTypography provides appTheme.typography,
         LocalAppColors provides appTheme.colors,
         LocalAppShapes provides appTheme.shapes,
+        LocalAppElevations provides appTheme.elevations
     ) {
         ProvideTextStyle(value = Theme.typography.body, content = content)
     }
@@ -52,4 +58,8 @@ val LocalAppColors = staticCompositionLocalOf<AppColors> {
 
 val LocalAppShapes = staticCompositionLocalOf<AppShapes> {
     error("No AppShapes provided")
+}
+
+val LocalAppElevations = staticCompositionLocalOf<AppElevations> {
+    error("No AppElevations provided")
 }

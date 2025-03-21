@@ -11,4 +11,6 @@ interface AppTheme {
     val shapes: AppShapes
     @Stable
     val typography: AppTypography
+    @Stable
+    val elevations: AppElevations
 }

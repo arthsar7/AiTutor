@@ -32,9 +32,11 @@ object AppThemeImpl: AppTheme {
         secondary = Green,
         secondaryLight = LightGreen,
         background = White,
+        onBackground = Black,
+        onBackgroundLight = Gray,
         buttonGradientBrush = Brush.horizontalGradient(persistentListOf(Blue, Green)),
         splashGradientBrush = Brush.verticalGradient(persistentListOf(Blue, Green)),
-        lightBlueGradientBrush = Brush.verticalGradient(persistentListOf(LightBlue, White))
+        lightBlueGradientBrush = Brush.verticalGradient(persistentListOf(LightBlue, White)),
     )
 
     @Stable
@@ -82,6 +84,19 @@ object AppThemeImpl: AppTheme {
             lineHeight = 24.sp,
             color = Black,
             textAlign = TextAlign.Center
+        ),
+        bodyBold = TextStyle(
+            fontFamily = fontFamily,
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            lineHeight = 24.sp,
+            color = Black,
+            textAlign = TextAlign.Center
         )
+    )
+
+    @Stable
+    override val elevations: AppElevations = AppElevations(
+        medium = 4f
     )
 }

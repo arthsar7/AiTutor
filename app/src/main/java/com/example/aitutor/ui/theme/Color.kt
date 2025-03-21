@@ -20,3 +20,6 @@ val White = Color(0xffFFFFFF)
 
 @Stable
 val Black = Color(0xff313131)
+
+@Stable
+val Gray = Color(0xff898A8D)

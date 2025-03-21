@@ -62,4 +62,10 @@ dependencies {
 
     //immutable
     implementation(libs.kotlinx.collections.immutable)
+
+    //koin
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    // koin compose
+    implementation(libs.koin.androidx.compose)
 }

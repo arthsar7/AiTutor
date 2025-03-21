@@ -37,5 +37,4 @@ class PrivateTutorReducer : Reducer<PrivateTutorState, PrivateTutorEvent, Privat
             }
         }
     }
-
 }

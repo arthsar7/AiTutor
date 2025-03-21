@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AiTutor</string>
+    <string name="app_name">Talky AI</string>
     <string name="splash_loading">Loading…</string>
     <string name="private_tutor_get_started">Get Started</string>
     <string name="private_tutor_title">Your Private Tutor</string>

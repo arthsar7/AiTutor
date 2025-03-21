@@ -8,18 +8,28 @@ import com.example.aitutor.base.reducer.UiEffect
 import com.example.aitutor.base.reducer.UiEvent
 import com.example.aitutor.base.reducer.UiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+
 
 @Immutable
 data class StepsState(
     val currentStepIndex: Int = 0,
-    val steps: ImmutableList<Step> = Step.entries.toPersistentList(),
+    val onboardingSteps: ImmutableList<OnboardingStep> = OnboardingStep.entries.toPersistentList(),
+    val isContinueAvailable: Boolean = true,
+    val nativeLanguages: ImmutableList<NativeLanguage> = NativeLanguage.entries.toPersistentList(),
+    val selectedNativeLanguage: NativeLanguage = NativeLanguage.English,
+    val englishLevels: ImmutableList<EnglishLevel> = EnglishLevel.entries.toPersistentList(),
+    val selectedEnglishLevel: EnglishLevel = EnglishLevel.A1,
+    val studyReasons: ImmutableList<StudyReason> = StudyReason.entries.toPersistentList(),
+    val selectedStudyReasons: ImmutableList<StudyReason> = persistentListOf(),
+    val yourName: String = "",
 ) : UiState {
     @Stable
-    val currentStep: Step get() = steps[currentStepIndex]
+    val currentOnboardingStep: OnboardingStep get() = onboardingSteps[currentStepIndex]
 
     @Stable
-    val isLastStep: Boolean get() = currentStepIndex == steps.lastIndex
+    val isLastStep: Boolean get() = currentStepIndex == onboardingSteps.lastIndex
 
     @Stable
     val isFirstStep: Boolean get() = currentStepIndex == 0
@@ -33,6 +43,18 @@ sealed interface StepsEvent : UiEvent {
 
     @Stable
     data object BackClicked : StepsEvent
+
+    @Stable
+    data class SelectNativeLanguage(val nativeLanguage: NativeLanguage) : StepsEvent
+
+    @Stable
+    data class SelectEnglishLevel(val englishLevel: EnglishLevel) : StepsEvent
+
+    @Stable
+    data class SelectStudyReason(val studyReason: StudyReason) : StepsEvent
+
+    @Stable
+    data class SetYourName(val yourName: String) : StepsEvent
 }
 
 @Immutable
@@ -58,7 +80,10 @@ class StepsReducer : Reducer<StepsState, StepsEvent, StepsEffect> {
                     )
                 } else {
                     ReducerResult(
-                        state = StepsState(currentStepIndex = state.currentStepIndex - 1),
+                        state = StepsState(
+                            currentStepIndex = state.currentStepIndex - 1,
+                            isContinueAvailable = validate(state, state.currentStepIndex - 1)
+                        ),
                         effect = StepsEffect.NavigateToStep(state.currentStepIndex - 1)
                     )
                 }
@@ -66,10 +91,53 @@ class StepsReducer : Reducer<StepsState, StepsEvent, StepsEffect> {
 
             StepsEvent.ContinueClicked -> {
                 ReducerResult(
-                    state = StepsState(currentStepIndex = state.currentStepIndex + 1),
-                    effect = StepsEffect.NavigateToStep(state.currentStepIndex + 1)
+                    state = StepsState(
+                        currentStepIndex = state.currentStepIndex + 1,
+                        isContinueAvailable = validate(state, state.currentStepIndex + 1)
+                    ),
+                    effect = StepsEffect.NavigateToStep(state.currentStepIndex + 1),
                 )
             }
+
+            is StepsEvent.SelectNativeLanguage -> {
+                ReducerResult(
+                    state = StepsState(selectedNativeLanguage = event.nativeLanguage),
+                )
+            }
+
+            is StepsEvent.SelectEnglishLevel -> {
+                ReducerResult(
+                    state = StepsState(selectedEnglishLevel = event.englishLevel),
+                )
+            }
+
+            is StepsEvent.SelectStudyReason -> {
+                ReducerResult(
+                    state = StepsState(
+                        selectedStudyReasons = if (state.selectedStudyReasons.contains(event.studyReason)) {
+                            state.selectedStudyReasons - event.studyReason
+                        } else {
+                            state.selectedStudyReasons + event.studyReason
+                        }.toPersistentList()
+                    ),
+                )
+            }
+
+            is StepsEvent.SetYourName -> {
+                ReducerResult(
+                    state = StepsState(
+                        yourName = event.yourName,
+                        isContinueAvailable = event.yourName.isNotBlank()
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun validate(state: StepsState, currentStepIndex: Int = state.currentStepIndex): Boolean {
+        return when (OnboardingStep.entries[currentStepIndex]) {
+            OnboardingStep.YourName -> state.yourName.isNotBlank()
+            else -> true
         }
     }
 

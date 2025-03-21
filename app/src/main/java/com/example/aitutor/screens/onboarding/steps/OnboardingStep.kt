@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.aitutor.R
 
 @Immutable
-enum class Step(@StringRes private val titleRes: Int) {
+enum class OnboardingStep(@StringRes private val titleRes: Int) {
     @Stable
     NativeLanguage(R.string.native_language_title),
     @Stable

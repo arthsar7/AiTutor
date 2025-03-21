@@ -15,5 +15,7 @@ data class AppTypography(
     @Stable
     val title: TextStyle,
     @Stable
-    val body: TextStyle
+    val body: TextStyle,
+    @Stable
+    val bodyBold: TextStyle
 )
